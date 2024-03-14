@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="https://s3-sa-east-1.amazonaws.com/mundogum/wp-content/uploads/2011/08/octothorpe.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    <style>
+        h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            font-size: 40px;
+            margin-top: 5px;
+        }
+
+        .board {
+            margin-top: 5px;
+            margin-left: 450px;
+            display: grid;
+            grid-template-columns: repeat(3, 150px);
+            grid-template-rows: repeat(3, 150px);
+            gap: 15px;
+        }
+
+        .cell {
+            border-radius: 15px;
+            text-align: center;
+            background-color: lightblue;
+            border: 3px solid black;
+            font-size: 64px;
+            cursor: pointer;
+            font-family: sans-serif;
+        }
+
+        body{
+            padding: 0;
+            margin: 0;
+            background-color: burlywood;
+        }
+
+        footer{
+            text-align: center;
+            font-size: 35px;
+            margin-top: 35px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Bem-Vindo ao Jogo da Velha</h1>
+
+    <div class="board" id="board">
+        <div class="cell" onclick="cellClicked(0)"></div>
+        <div class="cell" onclick="cellClicked(1)"></div>
+        <div class="cell" onclick="cellClicked(2)"></div>
+        <div class="cell" onclick="cellClicked(3)"></div>
+        <div class="cell" onclick="cellClicked(4)"></div>
+        <div class="cell" onclick="cellClicked(5)"></div>
+        <div class="cell" onclick="cellClicked(6)"></div>
+        <div class="cell" onclick="cellClicked(7)"></div>
+        <div class="cell" onclick="cellClicked(8)"></div>
+    </div>
+
+    <script>
+        let currentPlayer = 'X';
+        let board = ['', '', '', '', '', '', '', '', ''];
+
+        function cellClicked(index) {
+            if (board[index] === '') {
+                board[index] = currentPlayer;
+                document.getElementById('board').children[index].innerHTML = currentPlayer;
+                checkWinner();
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            }
+        }
+
+        function checkWinner() {
+            const winConditions = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+
+            for (let condition of winConditions) {
+                const [a, b, c] = condition;
+                if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
+                    alert(`JOGADOR ${board[a]} VENCEU!`);
+                    resetBoard();
+                    return;
+                }
+            }
+
+            if (!board.includes('')) {
+                alert('EMPATE!');
+                resetBoard();
+            }
+        }
+
+        function resetBoard() {
+            currentPlayer = 'X';
+            board = ['', '', '', '', '', '', '', '', ''];
+            for (let i = 0; i < 9; i++) {
+                document.getElementById('board').children[i].innerHTML = '';
+            }
+        }
+
+    </script>
+
+    <footer>Programado por Iuri Macedo| Turma C| 2024</footer>
+
+</body>
+
+</html>
